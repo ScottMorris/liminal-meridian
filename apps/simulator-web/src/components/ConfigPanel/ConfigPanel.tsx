@@ -1,13 +1,28 @@
 import React from 'react';
 import { ThemeMode } from '../../hooks/useTheme';
 import styles from './ConfigPanel.module.css';
+import type { DisplayProfile } from '@liminal/shared/types/profile';
+import type { DisplayTarget } from '@liminal/shared/types/display';
 
 interface ConfigPanelProps {
 	themeMode: ThemeMode;
 	onThemeChange: (mode: ThemeMode) => void;
+	topProfiles: DisplayProfile[];
+	bottomProfiles: DisplayProfile[];
+	selectedTopId: string;
+	selectedBottomId: string;
+	onProfileChange: (target: DisplayTarget, id: string) => void;
 }
 
-export const ConfigPanel: React.FC<ConfigPanelProps> = ({ themeMode, onThemeChange }) => {
+export const ConfigPanel: React.FC<ConfigPanelProps> = ({
+	themeMode,
+	onThemeChange,
+	topProfiles,
+	bottomProfiles,
+	selectedTopId,
+	selectedBottomId,
+	onProfileChange,
+}) => {
 	return (
 		<div className={styles.container}>
 			<div className={styles.section}>
@@ -29,14 +44,30 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({ themeMode, onThemeChan
 				<h3 className={styles.sectionTitle}>Display Profiles</h3>
 				<div className={styles.controlGroup}>
 					<label className={styles.label}>Top Display</label>
-					<select className={styles.select} disabled>
-						<option>Standard Colour</option>
+					<select
+						className={styles.select}
+						value={selectedTopId}
+						onChange={(e) => onProfileChange('top', e.target.value)}
+					>
+						{topProfiles.map((p) => (
+							<option key={p.id} value={p.id}>
+								{p.name}
+							</option>
+						))}
 					</select>
 				</div>
 				<div className={styles.controlGroup}>
 					<label className={styles.label}>Bottom Display</label>
-					<select className={styles.select} disabled>
-						<option>Standard Monochrome</option>
+					<select
+						className={styles.select}
+						value={selectedBottomId}
+						onChange={(e) => onProfileChange('bottom', e.target.value)}
+					>
+						{bottomProfiles.map((p) => (
+							<option key={p.id} value={p.id}>
+								{p.name}
+							</option>
+						))}
 					</select>
 				</div>
 			</div>

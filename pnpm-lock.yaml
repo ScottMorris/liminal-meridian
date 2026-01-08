@@ -44,6 +44,12 @@ importers:
 
   apps/simulator-web:
     dependencies:
+      '@liminal/display-profiles':
+        specifier: workspace:*
+        version: link:../../packages/display-profiles
+      '@liminal/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
       react:
         specifier: ^18.2.0
         version: 18.3.1
