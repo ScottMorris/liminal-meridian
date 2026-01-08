@@ -71,7 +71,11 @@ importers:
 
   packages/core: {}
 
-  packages/display-profiles: {}
+  packages/display-profiles:
+    dependencies:
+      '@liminal/shared':
+        specifier: workspace:*
+        version: link:../shared
 
   packages/display-sim: {}
 
