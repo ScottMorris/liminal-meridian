@@ -1,0 +1,59 @@
+.container {
+	padding: 1rem;
+	background-color: #f8f9fa;
+	border-right: 1px solid #dee2e6;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+}
+
+.section {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.sectionTitle {
+	font-weight: bold;
+	font-size: 0.9rem;
+	color: #495057;
+	margin: 0;
+}
+
+.controlGroup {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+}
+
+.label {
+	font-size: 0.8rem;
+	color: #6c757d;
+}
+
+.select {
+	padding: 0.25rem;
+	border: 1px solid #ced4da;
+	border-radius: 4px;
+	font-size: 0.9rem;
+}
+
+.buttonGroup {
+	display: flex;
+	gap: 0.5rem;
+}
+
+.button {
+	padding: 0.25rem 0.5rem;
+	border: 1px solid #ced4da;
+	background-color: white;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 0.8rem;
+}
+
+.button:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
