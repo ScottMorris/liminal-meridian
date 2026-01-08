@@ -1,6 +1,6 @@
 .container {
 	flex: 1;
-	background-color: #e9ecef;
+	background-color: var(--bg-preview);
 	display: flex;
 	justify-content: center;
 	align-items: center;

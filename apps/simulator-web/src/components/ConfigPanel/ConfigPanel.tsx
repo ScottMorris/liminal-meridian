@@ -1,9 +1,30 @@
 import React from 'react';
+import { ThemeMode } from '../../hooks/useTheme';
 import styles from './ConfigPanel.module.css';
 
-export const ConfigPanel: React.FC = () => {
+interface ConfigPanelProps {
+	themeMode: ThemeMode;
+	onThemeChange: (mode: ThemeMode) => void;
+}
+
+export const ConfigPanel: React.FC<ConfigPanelProps> = ({ themeMode, onThemeChange }) => {
 	return (
 		<div className={styles.container}>
+			<div className={styles.section}>
+				<h3 className={styles.sectionTitle}>Theme</h3>
+				<div className={styles.controlGroup}>
+					<select
+						className={styles.select}
+						value={themeMode}
+						onChange={(e) => onThemeChange(e.target.value as ThemeMode)}
+					>
+						<option value="system">System Default</option>
+						<option value="light">Light</option>
+						<option value="dark">Dark</option>
+					</select>
+				</div>
+			</div>
+
 			<div className={styles.section}>
 				<h3 className={styles.sectionTitle}>Display Profiles</h3>
 				<div className={styles.controlGroup}>

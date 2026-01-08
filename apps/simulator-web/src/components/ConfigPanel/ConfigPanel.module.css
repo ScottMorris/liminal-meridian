@@ -1,11 +1,12 @@
 .container {
 	padding: 1rem;
-	background-color: #f8f9fa;
-	border-right: 1px solid #dee2e6;
+	background-color: var(--bg-panel);
+	border-right: 1px solid var(--border-color);
 	height: 100%;
 	display: flex;
 	flex-direction: column;
 	gap: 1.5rem;
+	color: var(--text-main);
 }
 
 .section {
@@ -17,7 +18,7 @@
 .sectionTitle {
 	font-weight: bold;
 	font-size: 0.9rem;
-	color: #495057;
+	color: var(--text-title);
 	margin: 0;
 }
 
@@ -29,12 +30,14 @@
 
 .label {
 	font-size: 0.8rem;
-	color: #6c757d;
+	color: var(--text-muted);
 }
 
 .select {
 	padding: 0.25rem;
-	border: 1px solid #ced4da;
+	border: 1px solid var(--input-border);
+	background-color: var(--input-bg);
+	color: var(--text-main);
 	border-radius: 4px;
 	font-size: 0.9rem;
 }
@@ -46,8 +49,9 @@
 
 .button {
 	padding: 0.25rem 0.5rem;
-	border: 1px solid #ced4da;
-	background-color: white;
+	border: 1px solid var(--input-border);
+	background-color: var(--button-bg);
+	color: var(--text-main);
 	border-radius: 4px;
 	cursor: pointer;
 	font-size: 0.8rem;
