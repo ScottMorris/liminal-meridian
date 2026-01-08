@@ -17,7 +17,7 @@
 
 .topDisplay {
 	width: 600px;
-	height: 400px;
+	height: 360px;
 	border: 10px solid #333;
 	background-color: white;
 	display: flex;
@@ -28,7 +28,7 @@
 
 .bottomDisplay {
 	width: 600px;
-	height: 200px;
+	height: 450px;
 	border: 10px solid #333;
 	background-color: #e0e0e0;
 	display: flex;
