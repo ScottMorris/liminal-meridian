@@ -7,6 +7,7 @@
 		"./types/display": "./src/types/display.ts",
 		"./types/colour": "./src/types/colour.ts",
 		"./types/profile": "./src/types/profile.ts",
+		"./types/config": "./src/types/config.ts",
 		"./utils/math": "./src/utils/math.ts",
 		"./utils/assert": "./src/utils/assert.ts"
 	},
