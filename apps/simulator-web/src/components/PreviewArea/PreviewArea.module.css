@@ -16,28 +16,29 @@
 }
 
 .topDisplay {
-	width: 600px;
-	height: 360px;
+	/* Dimensions are overridden by inline styles, but these serve as fallbacks or base styles */
 	border: 10px solid #333;
 	background-color: white;
-	display: flex;
-	justify-content: center;
-	align-items: center;
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	position: relative;
+	overflow: hidden;
 }
 
 .bottomDisplay {
-	width: 600px;
-	height: 450px;
+	/* Dimensions are overridden by inline styles */
 	border: 10px solid #333;
 	background-color: #e0e0e0;
-	display: flex;
-	justify-content: center;
-	align-items: center;
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	position: relative;
+	overflow: hidden;
 }
 
 .placeholderText {
 	color: #666;
 	font-family: monospace;
+	/* Center placeholder text if used */
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }

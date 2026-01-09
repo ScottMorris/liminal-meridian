@@ -1,3 +1,3 @@
-export * from './top-surface';
-export * from './bottom-surface';
-export * from './pixel-surface-frame';
+export { TopSurface, type TopSurfaceProps } from './top-surface';
+export { BottomSurface, type BottomSurfaceProps } from './bottom-surface';
+export { PixelSurfaceFrame, type PixelSurfaceFrameProps } from './pixel-surface-frame';

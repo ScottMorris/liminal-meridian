@@ -38,6 +38,9 @@ export const PreviewArea: React.FC<PreviewAreaProps> = ({
 						style={{
 							transform: `scale(${SCALE})`,
 							transformOrigin: 'top left',
+							position: 'absolute',
+							top: 0,
+							left: 0,
 						}}
 					>
 						<TopSurface profile={topProfile} />
@@ -56,6 +59,9 @@ export const PreviewArea: React.FC<PreviewAreaProps> = ({
 						style={{
 							transform: `scale(${SCALE})`,
 							transformOrigin: 'top left',
+							position: 'absolute',
+							top: 0,
+							left: 0,
 						}}
 					>
 						<BottomSurface
