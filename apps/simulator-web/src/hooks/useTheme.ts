@@ -16,11 +16,13 @@ export const useTheme = () => {
 		};
 
 		// Initial check
+		/* eslint-disable react-hooks/set-state-in-effect */
 		if (mode === 'system') {
 			setResolvedTheme(mediaQuery.matches ? 'dark' : 'light');
 		} else {
 			setResolvedTheme(mode);
 		}
+		/* eslint-enable react-hooks/set-state-in-effect */
 
 		// Listen for system changes
 		mediaQuery.addEventListener('change', handleChange);
