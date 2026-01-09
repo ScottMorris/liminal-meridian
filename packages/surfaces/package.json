@@ -6,9 +6,18 @@
 	"main": "./src/index.ts",
 	"exports": {
 		".": "./src/index.ts",
-		"./pixel-surface-frame": "./src/pixel-surface-frame.ts",
-		"./top-surface": "./src/top-surface.ts",
-		"./bottom-surface": "./src/bottom-surface.ts"
+		"./pixel-surface-frame": {
+			"types": "./src/pixel-surface-frame.ts",
+			"default": "./src/pixel-surface-frame.ts"
+		},
+		"./top-surface": {
+			"types": "./src/top-surface.ts",
+			"default": "./src/top-surface.ts"
+		},
+		"./bottom-surface": {
+			"types": "./src/bottom-surface.ts",
+			"default": "./src/bottom-surface.ts"
+		}
 	},
 	"scripts": {
 		"lint": "eslint ."
