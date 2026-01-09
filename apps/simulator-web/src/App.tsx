@@ -1,14 +1,39 @@
-import React from 'react';
+import React, { useReducer, useEffect, useMemo, useState } from 'react';
 import styles from './App.module.css';
 import { ConfigPanel } from './components/ConfigPanel/ConfigPanel';
 import { PreviewArea } from './components/PreviewArea/PreviewArea';
 import { useTheme } from './hooks/useTheme';
 import { getDefaultProfiles, validateProfiles } from '@liminal/display-profiles';
 import type { DeviceConfig } from '@liminal/shared/types/config';
-import { useEffect, useState, useMemo } from 'react';
+import { initialState, reducer } from '@liminal/core/state';
+import { getScenarioById } from '@liminal/mock-data';
 
 const App: React.FC = () => {
 	const { mode, setMode, resolvedTheme } = useTheme();
+
+	// Initialize core state
+	const [appState, dispatch] = useReducer(reducer, initialState);
+
+	// Load initial scenario on mount if not loaded
+	useEffect(() => {
+		if (!appState.scenarioId) {
+			const defaultScenario = getScenarioById('empty-month');
+			if (defaultScenario) {
+				dispatch({ type: 'LOAD_SCENARIO', payload: defaultScenario });
+			}
+		}
+	}, [appState.scenarioId]);
+
+	const handleScenarioChange = (id: string) => {
+		const scenario = getScenarioById(id);
+		if (scenario) {
+			dispatch({ type: 'LOAD_SCENARIO', payload: scenario });
+		}
+	};
+
+	const handleDateSelect = (date: string) => {
+		dispatch({ type: 'SET_DATE', payload: date });
+	};
 
 	// Initialize profiles
 	const profiles = useMemo(() => getDefaultProfiles(), []);
@@ -29,13 +54,6 @@ const App: React.FC = () => {
 	const selectedTopProfile = profiles.top.find((p) => p.id === topProfileId) || profiles.top[0];
 	const selectedBottomProfile =
 		profiles.bottom.find((p) => p.id === bottomProfileId) || profiles.bottom[0];
-
-	// Date state for BottomSurface
-	const [selectedDate, setSelectedDate] = useState(() => {
-		const now = new Date();
-		return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
-	});
-	const [monthAnchor] = useState(new Date()); // Default to current month, could be state if we added month navigation
 
 	// Bezel configuration
 	const [bezelCrop, setBezelCrop] = useState(false);
@@ -63,15 +81,18 @@ const App: React.FC = () => {
 				onBezelCropChange={setBezelCrop}
 				deviceConfig={deviceConfig}
 				onDeviceConfigChange={setDeviceConfig}
+				scenarioId={appState.scenarioId}
+				onScenarioChange={handleScenarioChange}
 			/>
 			<PreviewArea
 				topProfile={selectedTopProfile}
 				bottomProfile={selectedBottomProfile}
-				selectedDate={selectedDate}
-				onDateSelect={setSelectedDate}
-				monthAnchor={monthAnchor}
+				selectedDate={appState.view.selectedDate}
+				onDateSelect={handleDateSelect}
+				monthAnchor={appState.view.monthAnchor}
 				bezelCrop={bezelCrop}
 				deviceConfig={deviceConfig}
+				events={appState.events}
 			/>
 		</div>
 	);

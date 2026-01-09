@@ -1,1 +1,1 @@
-export const name = '@liminal/core';
+export * from './state';

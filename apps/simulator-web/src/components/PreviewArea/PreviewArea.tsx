@@ -4,6 +4,7 @@ import type { DisplayProfile } from '@liminal/shared/types/profile';
 import { TopSurface } from '@liminal/surfaces/top-surface';
 import { BottomSurface } from '@liminal/surfaces/bottom-surface';
 import type { DeviceConfig } from '@liminal/shared/types/config';
+import type { CalendarEvent } from '@liminal/shared/types/calendar';
 
 interface PreviewAreaProps {
 	topProfile: DisplayProfile;
@@ -13,6 +14,7 @@ interface PreviewAreaProps {
 	monthAnchor: Date;
 	bezelCrop: boolean;
 	deviceConfig: DeviceConfig;
+	events?: CalendarEvent[];
 }
 
 export const PreviewArea: React.FC<PreviewAreaProps> = ({
@@ -23,6 +25,7 @@ export const PreviewArea: React.FC<PreviewAreaProps> = ({
 	monthAnchor,
 	bezelCrop,
 	deviceConfig,
+	events = [],
 }) => {
 	// Simple fixed scale for now to fit the large surfaces in the simulator view
 	// In a real app we might calculate this dynamically based on window size
@@ -91,6 +94,7 @@ export const PreviewArea: React.FC<PreviewAreaProps> = ({
 							monthAnchor={monthAnchor}
 							cropLeft={leftCrop}
 							cropRight={rightCrop}
+							events={events}
 						/>
 					</div>
 

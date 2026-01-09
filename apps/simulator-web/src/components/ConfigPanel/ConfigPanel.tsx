@@ -4,6 +4,7 @@ import styles from './ConfigPanel.module.css';
 import type { DisplayProfile } from '@liminal/shared/types/profile';
 import type { DisplayTarget } from '@liminal/shared/types/display';
 import type { DeviceConfig } from '@liminal/shared/types/config';
+import { SCENARIOS } from '@liminal/mock-data';
 
 interface ConfigPanelProps {
 	themeMode: ThemeMode;
@@ -17,6 +18,8 @@ interface ConfigPanelProps {
 	onBezelCropChange: (enabled: boolean) => void;
 	deviceConfig: DeviceConfig;
 	onDeviceConfigChange: (config: DeviceConfig) => void;
+	scenarioId: string;
+	onScenarioChange: (id: string) => void;
 }
 
 export const ConfigPanel: React.FC<ConfigPanelProps> = ({
@@ -31,6 +34,8 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({
 	onBezelCropChange,
 	deviceConfig,
 	onDeviceConfigChange,
+	scenarioId,
+	onScenarioChange,
 }) => {
 	const [showImport, setShowImport] = React.useState(false);
 	const [importValue, setImportValue] = React.useState('');
@@ -65,6 +70,26 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({
 
 	return (
 		<div className={styles.container}>
+			<div className={styles.section}>
+				<h3 className={styles.sectionTitle}>Scenario</h3>
+				<div className={styles.controlGroup}>
+					<select
+						className={styles.select}
+						value={scenarioId}
+						onChange={(e) => onScenarioChange(e.target.value)}
+					>
+						<option value="" disabled>
+							Select a scenario
+						</option>
+						{SCENARIOS.map((s) => (
+							<option key={s.id} value={s.id}>
+								{s.name}
+							</option>
+						))}
+					</select>
+				</div>
+			</div>
+
 			<div className={styles.section}>
 				<h3 className={styles.sectionTitle}>Theme</h3>
 				<div className={styles.controlGroup}>

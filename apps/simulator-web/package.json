@@ -13,6 +13,8 @@
 		"@liminal/display-profiles": "workspace:*",
 		"@liminal/shared": "workspace:*",
 		"@liminal/surfaces": "workspace:*",
+		"@liminal/core": "workspace:*",
+		"@liminal/mock-data": "workspace:*",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0"
 	},
