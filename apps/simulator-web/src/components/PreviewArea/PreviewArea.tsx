@@ -30,23 +30,15 @@ export const PreviewArea: React.FC<PreviewAreaProps> = ({
 	const SCALE = 0.25;
 
 	// Calculate crop
-	let bottomVisibleWidth = bottomProfile.resolution.width;
-	let bottomVisibleOffset = 0;
+	const horizontalDiff = Math.max(0, bottomProfile.resolution.width - topProfile.resolution.width);
+	const baseCrop = horizontalDiff / 2;
+
+	let leftCrop = 0;
+	let rightCrop = 0;
 
 	if (bezelCrop) {
-		const horizontalDiff = Math.max(
-			0,
-			bottomProfile.resolution.width - topProfile.resolution.width,
-		);
-		const baseCrop = horizontalDiff / 2;
-		const finalLeftCrop = baseCrop + bezelInsetLeft;
-		const finalRightCrop = baseCrop + bezelInsetRight;
-
-		bottomVisibleWidth = Math.max(
-			0,
-			bottomProfile.resolution.width - finalLeftCrop - finalRightCrop,
-		);
-		bottomVisibleOffset = -finalLeftCrop;
+		leftCrop = Math.max(0, baseCrop + bezelInsetLeft);
+		rightCrop = Math.max(0, baseCrop + bezelInsetRight);
 	}
 
 	return (
@@ -77,10 +69,9 @@ export const PreviewArea: React.FC<PreviewAreaProps> = ({
 				<div
 					className={styles.bottomDisplay}
 					style={{
-						width: bottomVisibleWidth * SCALE,
+						width: bottomProfile.resolution.width * SCALE,
 						height: bottomProfile.resolution.height * SCALE,
 						position: 'relative',
-						overflow: 'hidden',
 					}}
 				>
 					<div
@@ -89,7 +80,7 @@ export const PreviewArea: React.FC<PreviewAreaProps> = ({
 							transformOrigin: 'top left',
 							position: 'absolute',
 							top: 0,
-							left: bottomVisibleOffset * SCALE,
+							left: 0,
 						}}
 					>
 						<BottomSurface
@@ -97,8 +88,40 @@ export const PreviewArea: React.FC<PreviewAreaProps> = ({
 							selectedDate={selectedDate}
 							onDateSelect={onDateSelect}
 							monthAnchor={monthAnchor}
+							cropLeft={leftCrop}
+							cropRight={rightCrop}
 						/>
 					</div>
+
+					{/* Bezel Overlays */}
+					{bezelCrop && (
+						<>
+							<div
+								style={{
+									position: 'absolute',
+									top: 0,
+									bottom: 0,
+									left: 0,
+									width: leftCrop * SCALE,
+									backgroundColor: 'rgba(0, 0, 0, 0.5)',
+									zIndex: 10,
+									pointerEvents: 'none',
+								}}
+							/>
+							<div
+								style={{
+									position: 'absolute',
+									top: 0,
+									bottom: 0,
+									right: 0,
+									width: rightCrop * SCALE,
+									backgroundColor: 'rgba(0, 0, 0, 0.5)',
+									zIndex: 10,
+									pointerEvents: 'none',
+								}}
+							/>
+						</>
+					)}
 				</div>
 			</div>
 		</div>

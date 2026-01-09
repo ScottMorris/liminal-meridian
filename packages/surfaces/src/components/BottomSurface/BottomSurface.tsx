@@ -10,6 +10,8 @@ export interface BottomSurfaceProps {
 	onDateSelect: (date: string) => void;
 	monthAnchor: Date; // The month to display
 	today?: Date;
+	cropLeft?: number;
+	cropRight?: number;
 }
 
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -20,6 +22,8 @@ export const BottomSurface: React.FC<BottomSurfaceProps> = ({
 	onDateSelect,
 	monthAnchor,
 	today = new Date(),
+	cropLeft = 0,
+	cropRight = 0,
 }) => {
 	const year = monthAnchor.getFullYear();
 	const month = monthAnchor.getMonth(); // 0-11
@@ -56,7 +60,15 @@ export const BottomSurface: React.FC<BottomSurfaceProps> = ({
 	}
 
 	return (
-		<PixelSurfaceFrame profile={profile} className={styles.container}>
+		<PixelSurfaceFrame
+			profile={profile}
+			className={styles.container}
+			style={{
+				paddingLeft: cropLeft,
+				paddingRight: cropRight,
+				boxSizing: 'border-box',
+			}}
+		>
 			<div className={styles.header}>
 				<div className={styles.monthTitle}>{monthName}</div>
 				<div className={styles.yearTitle}>{year}</div>
