@@ -1,6 +1,7 @@
 import React from 'react';
 import { PixelSurfaceFrame } from '../PixelSurfaceFrame/PixelSurfaceFrame';
 import type { DisplayProfile } from '@liminal/shared/types/profile';
+import type { CalendarEvent } from '@liminal/shared/types/calendar';
 import styles from './BottomSurface.module.css';
 import { getCalendarGrid, formatDate } from '../../utils/date';
 
@@ -12,6 +13,7 @@ export interface BottomSurfaceProps {
 	today?: Date;
 	cropLeft?: number;
 	cropRight?: number;
+	events?: CalendarEvent[];
 }
 
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -24,6 +26,7 @@ export const BottomSurface: React.FC<BottomSurfaceProps> = ({
 	today = new Date(),
 	cropLeft = 0,
 	cropRight = 0,
+	events = [],
 }) => {
 	const year = monthAnchor.getFullYear();
 	const month = monthAnchor.getMonth(); // 0-11
@@ -31,6 +34,11 @@ export const BottomSurface: React.FC<BottomSurfaceProps> = ({
 	const { daysInMonth, startDay } = getCalendarGrid(year, month);
 
 	const monthName = monthAnchor.toLocaleString('default', { month: 'long' });
+
+	// Helper to get event count for a date
+	const getEventCount = (dateStr: string) => {
+		return events.filter((e) => e.start.startsWith(dateStr)).length;
+	};
 
 	// Generate day cells
 	const cells = [];
@@ -46,6 +54,18 @@ export const BottomSurface: React.FC<BottomSurfaceProps> = ({
 		const dateStr = formatDate(currentDate);
 		const isSelected = dateStr === selectedDate;
 		const isToday = formatDate(today) === dateStr;
+		const eventCount = getEventCount(dateStr);
+
+		// Render dots based on count
+		const dots = [];
+		if (eventCount > 0) {
+			const numDots = Math.min(eventCount, 3); // Max 3 dots shown
+			for (let i = 0; i < numDots; i++) {
+				dots.push(
+					<div key={i} className={`${styles.dot} ${eventCount > 3 ? styles.heavy : ''}`} />,
+				);
+			}
+		}
 
 		cells.push(
 			<div
@@ -55,6 +75,7 @@ export const BottomSurface: React.FC<BottomSurfaceProps> = ({
 			>
 				<span className={styles.dayNumber}>{d}</span>
 				{isToday && <span className={styles.todayIndicator}>Today</span>}
+				{dots.length > 0 && <div className={styles.eventDots}>{dots}</div>}
 			</div>,
 		);
 	}

@@ -44,9 +44,15 @@ importers:
 
   apps/simulator-web:
     dependencies:
+      '@liminal/core':
+        specifier: workspace:*
+        version: link:../../packages/core
       '@liminal/display-profiles':
         specifier: workspace:*
         version: link:../../packages/display-profiles
+      '@liminal/mock-data':
+        specifier: workspace:*
+        version: link:../../packages/mock-data
       '@liminal/shared':
         specifier: workspace:*
         version: link:../../packages/shared
@@ -78,7 +84,11 @@ importers:
 
   packages/capture: {}
 
-  packages/core: {}
+  packages/core:
+    dependencies:
+      '@liminal/shared':
+        specifier: workspace:*
+        version: link:../shared
 
   packages/display-profiles:
     dependencies:
@@ -88,7 +98,11 @@ importers:
 
   packages/display-sim: {}
 
-  packages/mock-data: {}
+  packages/mock-data:
+    dependencies:
+      '@liminal/shared':
+        specifier: workspace:*
+        version: link:../shared
 
   packages/shared: {}
 

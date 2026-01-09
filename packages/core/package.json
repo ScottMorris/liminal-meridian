@@ -4,7 +4,14 @@
 	"version": "0.0.0",
 	"type": "module",
 	"main": "./src/index.ts",
+	"exports": {
+		".": "./src/index.ts",
+		"./state": "./src/state.ts"
+	},
 	"scripts": {
 		"lint": "eslint ."
+	},
+	"dependencies": {
+		"@liminal/shared": "workspace:*"
 	}
 }

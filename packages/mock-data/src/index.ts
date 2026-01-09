@@ -1,1 +1,1 @@
-export const name = '@liminal/mock-data';
+export * from './registry';
