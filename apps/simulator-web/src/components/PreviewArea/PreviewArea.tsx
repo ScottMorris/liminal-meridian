@@ -10,6 +10,9 @@ interface PreviewAreaProps {
 	selectedDate: string;
 	onDateSelect: (date: string) => void;
 	monthAnchor: Date;
+	bezelCrop: boolean;
+	bezelInsetLeft: number;
+	bezelInsetRight: number;
 }
 
 export const PreviewArea: React.FC<PreviewAreaProps> = ({
@@ -18,10 +21,33 @@ export const PreviewArea: React.FC<PreviewAreaProps> = ({
 	selectedDate,
 	onDateSelect,
 	monthAnchor,
+	bezelCrop,
+	bezelInsetLeft,
+	bezelInsetRight,
 }) => {
 	// Simple fixed scale for now to fit the large surfaces in the simulator view
 	// In a real app we might calculate this dynamically based on window size
 	const SCALE = 0.25;
+
+	// Calculate crop
+	let bottomVisibleWidth = bottomProfile.resolution.width;
+	let bottomVisibleOffset = 0;
+
+	if (bezelCrop) {
+		const horizontalDiff = Math.max(
+			0,
+			bottomProfile.resolution.width - topProfile.resolution.width,
+		);
+		const baseCrop = horizontalDiff / 2;
+		const finalLeftCrop = baseCrop + bezelInsetLeft;
+		const finalRightCrop = baseCrop + bezelInsetRight;
+
+		bottomVisibleWidth = Math.max(
+			0,
+			bottomProfile.resolution.width - finalLeftCrop - finalRightCrop,
+		);
+		bottomVisibleOffset = -finalLeftCrop;
+	}
 
 	return (
 		<div className={styles.container}>
@@ -51,8 +77,10 @@ export const PreviewArea: React.FC<PreviewAreaProps> = ({
 				<div
 					className={styles.bottomDisplay}
 					style={{
-						width: bottomProfile.resolution.width * SCALE,
+						width: bottomVisibleWidth * SCALE,
 						height: bottomProfile.resolution.height * SCALE,
+						position: 'relative',
+						overflow: 'hidden',
 					}}
 				>
 					<div
@@ -61,7 +89,7 @@ export const PreviewArea: React.FC<PreviewAreaProps> = ({
 							transformOrigin: 'top left',
 							position: 'absolute',
 							top: 0,
-							left: 0,
+							left: bottomVisibleOffset * SCALE,
 						}}
 					>
 						<BottomSurface

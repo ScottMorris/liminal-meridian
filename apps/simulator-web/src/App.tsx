@@ -36,6 +36,11 @@ const App: React.FC = () => {
 	});
 	const [monthAnchor] = useState(new Date()); // Default to current month, could be state if we added month navigation
 
+	// Bezel configuration
+	const [bezelCrop, setBezelCrop] = useState(false);
+	const [bezelInsetLeft, setBezelInsetLeft] = useState(0);
+	const [bezelInsetRight, setBezelInsetRight] = useState(0);
+
 	return (
 		<div className={styles.container} data-theme={resolvedTheme}>
 			<ConfigPanel
@@ -49,6 +54,12 @@ const App: React.FC = () => {
 					if (target === 'top') setTopProfileId(id);
 					else setBottomProfileId(id);
 				}}
+				bezelCrop={bezelCrop}
+				onBezelCropChange={setBezelCrop}
+				bezelInsetLeft={bezelInsetLeft}
+				onBezelInsetLeftChange={setBezelInsetLeft}
+				bezelInsetRight={bezelInsetRight}
+				onBezelInsetRightChange={setBezelInsetRight}
 			/>
 			<PreviewArea
 				topProfile={selectedTopProfile}
@@ -56,6 +67,9 @@ const App: React.FC = () => {
 				selectedDate={selectedDate}
 				onDateSelect={setSelectedDate}
 				monthAnchor={monthAnchor}
+				bezelCrop={bezelCrop}
+				bezelInsetLeft={bezelInsetLeft}
+				bezelInsetRight={bezelInsetRight}
 			/>
 		</div>
 	);
