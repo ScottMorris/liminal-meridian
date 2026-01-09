@@ -32,6 +32,9 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({
 	deviceConfig,
 	onDeviceConfigChange,
 }) => {
+	const [showImport, setShowImport] = React.useState(false);
+	const [importValue, setImportValue] = React.useState('');
+
 	const handleBottomSurfaceConfigChange = (key: 'cropLeft' | 'cropRight', value: number) => {
 		onDeviceConfigChange({
 			...deviceConfig,
@@ -40,6 +43,24 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({
 				[key]: value,
 			},
 		});
+	};
+
+	const handleExport = () => {
+		const json = JSON.stringify(deviceConfig, null, 2);
+		navigator.clipboard.writeText(json).then(() => {
+			alert('Configuration copied to clipboard!');
+		});
+	};
+
+	const handleImport = () => {
+		try {
+			const config = JSON.parse(importValue);
+			onDeviceConfigChange(config);
+			setShowImport(false);
+			setImportValue('');
+		} catch {
+			alert('Invalid JSON configuration');
+		}
 	};
 
 	return (
@@ -99,6 +120,32 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({
 								/>
 							</label>
 						</div>
+						<div className={styles.buttonGroup} style={{ marginTop: '1rem' }}>
+							<button className={styles.button} onClick={handleExport}>
+								Copy Config
+							</button>
+							<button className={styles.button} onClick={() => setShowImport(!showImport)}>
+								Import...
+							</button>
+						</div>
+						{showImport && (
+							<div style={{ marginTop: '0.5rem' }}>
+								<textarea
+									className={styles.input}
+									style={{ width: '100%', height: '100px', fontFamily: 'monospace' }}
+									value={importValue}
+									onChange={(e) => setImportValue(e.target.value)}
+									placeholder="Paste JSON config here..."
+								/>
+								<button
+									className={styles.button}
+									style={{ marginTop: '0.5rem', width: '100%' }}
+									onClick={handleImport}
+								>
+									Apply
+								</button>
+							</div>
+						)}
 					</>
 				)}
 			</div>
