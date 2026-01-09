@@ -29,6 +29,13 @@ const App: React.FC = () => {
 	const selectedBottomProfile =
 		profiles.bottom.find((p) => p.id === bottomProfileId) || profiles.bottom[0];
 
+	// Date state for BottomSurface
+	const [selectedDate, setSelectedDate] = useState(() => {
+		const now = new Date();
+		return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+	});
+	const [monthAnchor] = useState(new Date()); // Default to current month, could be state if we added month navigation
+
 	return (
 		<div className={styles.container} data-theme={resolvedTheme}>
 			<ConfigPanel
@@ -43,7 +50,13 @@ const App: React.FC = () => {
 					else setBottomProfileId(id);
 				}}
 			/>
-			<PreviewArea topProfile={selectedTopProfile} bottomProfile={selectedBottomProfile} />
+			<PreviewArea
+				topProfile={selectedTopProfile}
+				bottomProfile={selectedBottomProfile}
+				selectedDate={selectedDate}
+				onDateSelect={setSelectedDate}
+				monthAnchor={monthAnchor}
+			/>
 		</div>
 	);
 };

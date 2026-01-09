@@ -1,45 +1,70 @@
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import styles from './PreviewArea.module.css';
 import type { DisplayProfile } from '@liminal/shared/types/profile';
+import { TopSurface } from '@liminal/surfaces/top-surface';
+import { BottomSurface } from '@liminal/surfaces/bottom-surface';
 
 interface PreviewAreaProps {
 	topProfile: DisplayProfile;
 	bottomProfile: DisplayProfile;
+	selectedDate: string;
+	onDateSelect: (date: string) => void;
+	monthAnchor: Date;
 }
 
-export const PreviewArea: React.FC<PreviewAreaProps> = ({ topProfile, bottomProfile }) => {
+export const PreviewArea: React.FC<PreviewAreaProps> = ({
+	topProfile,
+	bottomProfile,
+	selectedDate,
+	onDateSelect,
+	monthAnchor,
+}) => {
+	// Simple fixed scale for now to fit the large surfaces in the simulator view
+	// In a real app we might calculate this dynamically based on window size
+	const SCALE = 0.25;
+
 	return (
 		<div className={styles.container}>
 			<div className={styles.displayStack}>
 				{/* Top Display: Colour e-paper */}
 				<div
 					className={styles.topDisplay}
-					style={
-						{
-							aspectRatio: `${topProfile.resolution.width} / ${topProfile.resolution.height}`,
-							// Optional: max width logic if needed, but flex/grid usually handles it.
-							// We'll trust the container layout for now, but adding explicit aspect-ratio
-							// ensures the shape is correct.
-						} as CSSProperties
-					}
+					style={{
+						width: topProfile.resolution.width * SCALE,
+						height: topProfile.resolution.height * SCALE,
+					}}
 				>
-					<span className={styles.placeholderText}>
-						Top: {topProfile.resolution.width} x {topProfile.resolution.height}
-					</span>
+					<div
+						style={{
+							transform: `scale(${SCALE})`,
+							transformOrigin: 'top left',
+						}}
+					>
+						<TopSurface profile={topProfile} />
+					</div>
 				</div>
 
 				{/* Bottom Display: Monochrome touch */}
 				<div
 					className={styles.bottomDisplay}
-					style={
-						{
-							aspectRatio: `${bottomProfile.resolution.width} / ${bottomProfile.resolution.height}`,
-						} as CSSProperties
-					}
+					style={{
+						width: bottomProfile.resolution.width * SCALE,
+						height: bottomProfile.resolution.height * SCALE,
+					}}
 				>
-					<span className={styles.placeholderText}>
-						Bottom: {bottomProfile.resolution.width} x {bottomProfile.resolution.height}
-					</span>
+					<div
+						style={{
+							transform: `scale(${SCALE})`,
+							transformOrigin: 'top left',
+						}}
+					>
+						<BottomSurface
+							profile={bottomProfile}
+							selectedDate={selectedDate}
+							onDateSelect={onDateSelect}
+							monthAnchor={monthAnchor}
+						/>
+					</div>
 				</div>
 			</div>
 		</div>
