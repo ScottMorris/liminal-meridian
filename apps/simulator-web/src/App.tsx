@@ -4,6 +4,7 @@ import { ConfigPanel } from './components/ConfigPanel/ConfigPanel';
 import { PreviewArea } from './components/PreviewArea/PreviewArea';
 import { useTheme } from './hooks/useTheme';
 import { getDefaultProfiles, validateProfiles } from '@liminal/display-profiles';
+import type { DeviceConfig } from '@liminal/shared/types/config';
 import { useEffect, useState, useMemo } from 'react';
 
 const App: React.FC = () => {
@@ -38,8 +39,12 @@ const App: React.FC = () => {
 
 	// Bezel configuration
 	const [bezelCrop, setBezelCrop] = useState(false);
-	const [bezelInsetLeft, setBezelInsetLeft] = useState(0);
-	const [bezelInsetRight, setBezelInsetRight] = useState(0);
+	const [deviceConfig, setDeviceConfig] = useState<DeviceConfig>({
+		bottomSurface: {
+			cropLeft: 0,
+			cropRight: 0,
+		},
+	});
 
 	return (
 		<div className={styles.container} data-theme={resolvedTheme}>
@@ -56,10 +61,8 @@ const App: React.FC = () => {
 				}}
 				bezelCrop={bezelCrop}
 				onBezelCropChange={setBezelCrop}
-				bezelInsetLeft={bezelInsetLeft}
-				onBezelInsetLeftChange={setBezelInsetLeft}
-				bezelInsetRight={bezelInsetRight}
-				onBezelInsetRightChange={setBezelInsetRight}
+				deviceConfig={deviceConfig}
+				onDeviceConfigChange={setDeviceConfig}
 			/>
 			<PreviewArea
 				topProfile={selectedTopProfile}
@@ -68,8 +71,7 @@ const App: React.FC = () => {
 				onDateSelect={setSelectedDate}
 				monthAnchor={monthAnchor}
 				bezelCrop={bezelCrop}
-				bezelInsetLeft={bezelInsetLeft}
-				bezelInsetRight={bezelInsetRight}
+				deviceConfig={deviceConfig}
 			/>
 		</div>
 	);

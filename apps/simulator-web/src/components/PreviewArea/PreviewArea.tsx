@@ -3,6 +3,7 @@ import styles from './PreviewArea.module.css';
 import type { DisplayProfile } from '@liminal/shared/types/profile';
 import { TopSurface } from '@liminal/surfaces/top-surface';
 import { BottomSurface } from '@liminal/surfaces/bottom-surface';
+import type { DeviceConfig } from '@liminal/shared/types/config';
 
 interface PreviewAreaProps {
 	topProfile: DisplayProfile;
@@ -11,8 +12,7 @@ interface PreviewAreaProps {
 	onDateSelect: (date: string) => void;
 	monthAnchor: Date;
 	bezelCrop: boolean;
-	bezelInsetLeft: number;
-	bezelInsetRight: number;
+	deviceConfig: DeviceConfig;
 }
 
 export const PreviewArea: React.FC<PreviewAreaProps> = ({
@@ -22,8 +22,7 @@ export const PreviewArea: React.FC<PreviewAreaProps> = ({
 	onDateSelect,
 	monthAnchor,
 	bezelCrop,
-	bezelInsetLeft,
-	bezelInsetRight,
+	deviceConfig,
 }) => {
 	// Simple fixed scale for now to fit the large surfaces in the simulator view
 	// In a real app we might calculate this dynamically based on window size
@@ -37,8 +36,10 @@ export const PreviewArea: React.FC<PreviewAreaProps> = ({
 	let rightCrop = 0;
 
 	if (bezelCrop) {
-		leftCrop = Math.max(0, baseCrop + bezelInsetLeft);
-		rightCrop = Math.max(0, baseCrop + bezelInsetRight);
+		const configLeft = deviceConfig.bottomSurface?.cropLeft || 0;
+		const configRight = deviceConfig.bottomSurface?.cropRight || 0;
+		leftCrop = Math.max(0, baseCrop + configLeft);
+		rightCrop = Math.max(0, baseCrop + configRight);
 	}
 
 	return (

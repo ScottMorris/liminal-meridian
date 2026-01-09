@@ -3,6 +3,7 @@ import { ThemeMode } from '../../hooks/useTheme';
 import styles from './ConfigPanel.module.css';
 import type { DisplayProfile } from '@liminal/shared/types/profile';
 import type { DisplayTarget } from '@liminal/shared/types/display';
+import type { DeviceConfig } from '@liminal/shared/types/config';
 
 interface ConfigPanelProps {
 	themeMode: ThemeMode;
@@ -14,10 +15,8 @@ interface ConfigPanelProps {
 	onProfileChange: (target: DisplayTarget, id: string) => void;
 	bezelCrop: boolean;
 	onBezelCropChange: (enabled: boolean) => void;
-	bezelInsetLeft: number;
-	onBezelInsetLeftChange: (value: number) => void;
-	bezelInsetRight: number;
-	onBezelInsetRightChange: (value: number) => void;
+	deviceConfig: DeviceConfig;
+	onDeviceConfigChange: (config: DeviceConfig) => void;
 }
 
 export const ConfigPanel: React.FC<ConfigPanelProps> = ({
@@ -30,11 +29,19 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({
 	onProfileChange,
 	bezelCrop,
 	onBezelCropChange,
-	bezelInsetLeft,
-	onBezelInsetLeftChange,
-	bezelInsetRight,
-	onBezelInsetRightChange,
+	deviceConfig,
+	onDeviceConfigChange,
 }) => {
+	const handleBottomSurfaceConfigChange = (key: 'cropLeft' | 'cropRight', value: number) => {
+		onDeviceConfigChange({
+			...deviceConfig,
+			bottomSurface: {
+				...deviceConfig.bottomSurface,
+				[key]: value,
+			},
+		});
+	};
+
 	return (
 		<div className={styles.container}>
 			<div className={styles.section}>
@@ -72,8 +79,10 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({
 								<input
 									type="number"
 									className={styles.input}
-									value={bezelInsetLeft}
-									onChange={(e) => onBezelInsetLeftChange(Number(e.target.value))}
+									value={deviceConfig.bottomSurface?.cropLeft || 0}
+									onChange={(e) =>
+										handleBottomSurfaceConfigChange('cropLeft', Number(e.target.value))
+									}
 								/>
 							</label>
 						</div>
@@ -83,8 +92,10 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({
 								<input
 									type="number"
 									className={styles.input}
-									value={bezelInsetRight}
-									onChange={(e) => onBezelInsetRightChange(Number(e.target.value))}
+									value={deviceConfig.bottomSurface?.cropRight || 0}
+									onChange={(e) =>
+										handleBottomSurfaceConfigChange('cropRight', Number(e.target.value))
+									}
 								/>
 							</label>
 						</div>
