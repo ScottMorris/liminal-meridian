@@ -50,6 +50,9 @@ importers:
       '@liminal/shared':
         specifier: workspace:*
         version: link:../../packages/shared
+      '@liminal/surfaces':
+        specifier: workspace:*
+        version: link:../../packages/surfaces
       react:
         specifier: ^18.2.0
         version: 18.3.1
@@ -89,7 +92,27 @@ importers:
 
   packages/shared: {}
 
-  packages/surfaces: {}
+  packages/surfaces:
+    dependencies:
+      '@liminal/shared':
+        specifier: workspace:*
+        version: link:../shared
+    devDependencies:
+      '@types/react':
+        specifier: ^18.2.0
+        version: 18.3.27
+      '@types/react-dom':
+        specifier: ^18.2.0
+        version: 18.3.7(@types/react@18.3.27)
+      react:
+        specifier: ^18.2.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.2.0
+        version: 18.3.1(react@18.3.1)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
 
 packages:
 

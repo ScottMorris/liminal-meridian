@@ -1,0 +1,6 @@
+.frame {
+	overflow: hidden;
+	position: relative;
+	background-color: #fff;
+	/* No border by default, the simulator might add one or we rely on content */
+}
